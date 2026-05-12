@@ -43,7 +43,7 @@ public class MänguGUI extends Application {
         HBox paigutusÜleval = new HBox();
         paigutusÜleval.getChildren().addAll(mängijaStats, pilt, vastaneStats);
 
-        TextArea kast = new TextArea("Algne tekst");
+        TextArea kast = new TextArea("                   Tere tulemast Delta areenile!!! \nSaad vajutda nuppe, et tegevusi teha.\nÜlesanne on kõik vastased ära tappa.");
         kast.setMaxHeight(150);
 
         Button ründaVastast = new Button("Ründa vastast");
@@ -51,7 +51,6 @@ public class MänguGUI extends Application {
         Button vaataEsemeid = new Button("Vaata enda esemeid");
         Button vaataOmadusi = new Button("Vaata omadusi");
 
-        ründaVastast.setOnAction(e -> kast.setText("a"));
 
         ründaVastast.setMinWidth(125);
         raviEnnast.setMinWidth(125);
@@ -73,7 +72,48 @@ public class MänguGUI extends Application {
         stage.setTitle("Delta Areen");
         stage.setResizable(false);
         stage.show();
+
+        //põhikooood
+        ManguHaldaja MH = new ManguHaldaja();
+
+        Tegelane[] tegelased = MH.alustaMängu();
+        Tegelane mängija = tegelased[0];
+        Tegelane vastane = tegelased[1];
+
+        StringBuilder sb = new StringBuilder();
+
+        int skoor =0;
+
+
+        ründaVastast.setOnAction(e -> {
+
+            MH.rünnak(mängija,vastane,kast);
+
+            //vastase_kord(MH,mängija,vastane,kast);
+
+        });
+
+        raviEnnast.setOnAction(e -> {
+            sb.setLength(0);
+            MH.elusta50(mängija,sb);
+            kast.setText(sb.toString());
+        });
+
+        vaataEsemeid.setOnAction(e -> {
+            kast.setText(mängija.näitaEsemed());
+        });
+
+        vaataOmadusi.setOnAction(e -> {
+            MH.näitaOmadusi(mängija,vastane,kast);
+        });
+
     }
+
+    private void vastase_kord(ManguHaldaja MH,Tegelane mangija,Tegelane vastane, TextArea kast){
+        MH.rünnak(vastane,mangija,kast);
+    }
+
+
 
 
 }

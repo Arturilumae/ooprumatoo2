@@ -1,5 +1,6 @@
 package com.example.rumatoo2;
 
+import java.sql.SQLData;
 import java.util.Random;
 
 public class Tegelane {
@@ -195,11 +196,11 @@ public class Tegelane {
     }
 
     //Debugimiseks!!
-//    public void setPalju(Esemetüüp a, int b){
-//        for (Asi c:sisu){
-//            if(c.Tüüp()==a){
-//                c.setPalju(b);
-//            }
-//        }
-//    }
+    public void setPalju(Esemetüüp a, int b){
+        for (Asi c:sisu){
+            if(c.Tüüp()==a){
+                c.setPalju(b);
+            }
+        }
+    }
 }

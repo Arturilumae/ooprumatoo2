@@ -77,6 +77,7 @@ public class Peaklass extends Application {
 //                            vastane = MH.uusVastane(skoor);
 //                            break;
 //                        }else {
+//
 //                            MH.püsiEfektid(mängija);
 //                            mängijaKord =false;
 //                            break;
