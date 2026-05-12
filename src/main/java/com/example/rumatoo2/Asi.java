@@ -58,6 +58,7 @@ public class Asi {
         if(this.palju >0) {return true;}
         return false;
     }
+    //pask
 
     //tagastab milist tüübi ese on
     public Esemetüüp Tüüp(){
