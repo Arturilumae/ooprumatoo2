@@ -45,6 +45,12 @@ public class Tegelane {
                 "Veritsusi: "+veritsus+"\n"+
                 "Takjaid: "+vigastus;
     }
+    public String statid(){
+        Uuenda();
+        return  "%s\n".formatted(nimi) +
+                "Elupunkte: %s \n".formatted(elud) +
+                "Tugevuspunkte: %s".formatted(tugevus);
+    }
 
     private void Uuenda(){
         tugevus = algneTugevus +sisu[9].väärtus();

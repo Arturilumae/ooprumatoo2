@@ -6,8 +6,6 @@ import java.util.Random;
 
 public class ManguHaldaja {
 
-
-    //prindib juhendi
     // teeb mängija ja vastase objecti ja tagastab need
 
 
@@ -16,7 +14,7 @@ public class ManguHaldaja {
         tegelased[0] = new Tegelane("Mängija",100,20);
         tegelased[1] = new Tegelane("Oliver", 30, 25);
 
-        tegelased[0].setPalju(Esemetüüp.Vigastus,1); //Katsetuseks lisan asja
+        tegelased[0].setPalju(Esemetüüp.Vigastus,10); //Katsetuseks lisan asja
 
         return tegelased;
     }
@@ -64,16 +62,14 @@ public class ManguHaldaja {
     }
 
     //Tegeleb rünnaku võimalustega ja kutsub välja "ründeKalkuleerimine()"
-    public boolean rünnak(Tegelane T1, Tegelane T2, TextArea kast) {// Esimene tegelane ründab teist
+    public boolean rünnak(Tegelane T1, Tegelane T2, StringBuilder sb) {// Esimene tegelane ründab teist
         //Thread.sleep(500);
 
         Random rand = new Random();
-        StringBuilder sb = new StringBuilder();
         if(T2.OnOlemas(Esemetüüp.Tähelepanu)){
             if(rand.nextDouble()<=T2.getTõenäosus(Esemetüüp.Tähelepanu)*T2.getÕnn()){
                 sb.append("%s unustas rünnata, sest jäi Kevinit kuulama\n".formatted(T1));
                 //System.out.println(T1+" unustas rünnata, sest jäi Kevinit kuulama");
-                kast.setText(sb.toString());
                 return false;
             }
         }
@@ -84,11 +80,9 @@ public class ManguHaldaja {
             if(!väärtused[0]){
                 ründeKalkuleerimine(T1,T2,sb);
             }
-            kast.setText(sb.toString());
             return väärtused[1];
         }else{
             boolean tul = ründeKalkuleerimine(T1,T2,sb)[1];
-            kast.setText(sb.toString());
             return tul;
         }
     }
