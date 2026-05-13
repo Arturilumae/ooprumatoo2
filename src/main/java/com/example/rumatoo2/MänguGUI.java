@@ -170,10 +170,10 @@ public class MänguGUI{
         vaataOmadusi.setBackground(new Background(new BackgroundFill(Color.GREEN, new CornerRadii(3), Insets.EMPTY)));
     }
     public void NuppudOff(){
-        ründaVastast.setBackground(new Background(new BackgroundFill(Color.RED, new CornerRadii(3), Insets.EMPTY)));
-        raviEnnast.setBackground(new Background(new BackgroundFill(Color.RED, new CornerRadii(3), Insets.EMPTY)));
-        vaataEsemeid.setBackground(new Background(new BackgroundFill(Color.RED, new CornerRadii(3), Insets.EMPTY)));
-        vaataOmadusi.setBackground(new Background(new BackgroundFill(Color.RED, new CornerRadii(3), Insets.EMPTY)));
+        ründaVastast.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
+        raviEnnast.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
+        vaataEsemeid.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
+        vaataOmadusi.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
     }
 }
 
