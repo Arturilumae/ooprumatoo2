@@ -14,22 +14,22 @@ public class ManguHaldaja {
         tegelased[0] = new Tegelane("Mängija",100,20);
         tegelased[1] = new Tegelane("Oliver", 30, 25);
 
-        tegelased[0].setPalju(Esemetüüp.Vigastus,10); //Katsetuseks lisan asja
+        //tegelased[0].setPalju(Esemetüüp.Vigastus,10); //Katsetuseks lisan asja
 
         return tegelased;
     }
 
     //Arvutab rünnaku efekte ja väljastab info ekraanile
-    private boolean[] ründeKalkuleerimine(Tegelane T1, Tegelane T2, StringBuilder sb){
+    private void ründeKalkuleerimine(Tegelane T1, Tegelane T2, StringBuilder sb){
         double tugevus = T1.rünnak();
         Random rand = new Random();
-        if(!T1.vigastamine()){
-            return new boolean[]{false, true};
-        }
+
+        T1.vigastamine(sb);
+
         if (T2.OnOlemas(Esemetüüp.Põikamine)&&rand.nextDouble()<=T2.getTõenäosus(Esemetüüp.Põikamine)*T2.getÕnn()){
             sb.append(T2).append(" oli piisavalt osav ja põikas eest ära.\n");
             //System.out.println(T2+" oli piisavalt osav ja põikas eest ära");
-            return new boolean[]{true, false};
+            return;
         }
         sb.append(T1).append(" ründab tugevusega: ").append(tugevus).append(".\n");
         //System.out.println(T1+" ründab tugevusega: "+tugevus);
@@ -53,16 +53,15 @@ public class ManguHaldaja {
         if(elus){
             //System.out.println(T2+" sai pihta, alles jäi "+ T2.getElud()+" elu");
             sb.append("%s sai pihta, alles jäi %s elu\n".formatted(T2,T2.getElud()));
-            return new boolean[]{true, false};
         }else{
             sb.append("%s sai pihta ja sai surma\n".formatted(T2));
             //System.out.println(T2+" sai pihta ja sai surma");
-            return new boolean[]{false, false};
+            throw new TegelaneSuri(T2.toString());
         }
     }
 
     //Tegeleb rünnaku võimalustega ja kutsub välja "ründeKalkuleerimine()"
-    public boolean rünnak(Tegelane T1, Tegelane T2, StringBuilder sb) {// Esimene tegelane ründab teist
+    public void rünnak(Tegelane T1, Tegelane T2, StringBuilder sb) {// Esimene tegelane ründab teist
         //Thread.sleep(500);
 
         Random rand = new Random();
@@ -70,20 +69,20 @@ public class ManguHaldaja {
             if(rand.nextDouble()<=T2.getTõenäosus(Esemetüüp.Tähelepanu)*T2.getÕnn()){
                 sb.append("%s unustas rünnata, sest jäi Kevinit kuulama\n".formatted(T1));
                 //System.out.println(T1+" unustas rünnata, sest jäi Kevinit kuulama");
-                return false;
+                return;
             }
         }
         if(T1.OnOlemas(Esemetüüp.Rünnak2x)&&rand.nextDouble()<=T1.getTõenäosus(Esemetüüp.Rünnak2x)*T1.getÕnn()){
             sb.append("Tegelasel %s vedas ja ründab kaks korda".formatted(T1));
             //System.out.println("Tegelasel" +T1+ " vedas ja ründab kaks korda");
-            boolean [] väärtused = ründeKalkuleerimine(T1,T2,sb);
-            if(!väärtused[0]){
-                ründeKalkuleerimine(T1,T2,sb);
-            }
-            return väärtused[1];
+            ründeKalkuleerimine(T1,T2,sb);
+//            if(!väärtused[0]){
+//                ründeKalkuleerimine(T1,T2,sb);
+//            }
+            return;
         }else{
-            boolean tul = ründeKalkuleerimine(T1,T2,sb)[1];
-            return tul;
+            ründeKalkuleerimine(T1,T2,sb);
+            return;
         }
     }
 
@@ -115,11 +114,11 @@ public class ManguHaldaja {
         Esemetüüp ese = T.suvalineEse();
         if(T.OnOlemas(Esemetüüp.Asjad)&&rand.nextDouble()<=T.getTõenäosus(Esemetüüp.Asjad)*T.getÕnn()){
             int a = (int) T.getVäärtus(Esemetüüp.Asjad);
-            sb.append("Vedas, saad %s %s".formatted(a+1, T.asiToString(ese)));
+            sb.append("Vedas, saad %s %s\n".formatted(a+1, T.asiToString(ese)));
             //System.out.println("Vedas, saad "+(a+1)+" "+T.asiToString(ese));
             T.lisaEse(ese,a+1);
         }else{
-            sb.append("Saad ühe %s".formatted(T.asiToString(ese)));
+            sb.append("Saad ühe %s\n".formatted(T.asiToString(ese)));
             //System.out.println("Saad ühe "+T.asiToString(ese));
             T.lisaEse(ese,1);
         }

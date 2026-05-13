@@ -21,7 +21,7 @@ public class Peaklass extends Application {
 
     private boolean mängualustada=true;
     private boolean mängja_kord=true;
-    private boolean mängija_elus=true;
+    private boolean mängläbi=false;
     private int skoor=0;
 
 
@@ -55,68 +55,108 @@ public class Peaklass extends Application {
         });
     }
     private void kastiteod() {
+        if(mängläbi){
+            System.exit(0);
+        }
+
         if (mängualustada) {
             uuenda();
             MG.kast.setText("Mida teed?");
             MG.NuppudOn();
             mängualustada = false;
-        } else if (skoor >= 10) {
-            MG.kast.setText("Tubli! Tapsid kõik vastased ära, mäng on läbi!");
         }else if (!mängja_kord) {
             vastase_kord();
         }
+    }
+
+    private void mängija_rünnak(){
+        if(mängja_kord){
+            sb.setLength(0);
+            try{
+                MH.rünnak(mängija,vastane,sb);
+            }catch (TegelaneSuri e){
+                if(e.equals("Mängija")){
+                    uuenda();
+                    MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+                    return;
+                }else{
+                    vastaneTapetud();
+                }
+            }
+            //MH.rünnak(mängija,vastane,sb);
+            mängija_korra_lõpp();
+        }
+    }
+
+    private void mängija_korra_lõpp(){
+//        if(!vastane.kasElus()){
+//            MG.kast.appendText("Tubli, tapsid vastase ära!");
+//            skoor+=1;
+//            MH.tasu(mängija,sb);
+//            if (skoor<10){
+//                vastane = MH.uusVastane(skoor,sb);
+//            }
+//            MG.kast.setText(sb.toString());
+//            uuenda();
+//            return;
+//        }
+        MG.kast.setText(sb.toString());
+        mängja_kord=false;
+        MG.NuppudOff();
+        uuenda();
     }
 
     private void uuenda(){
         MG.mängijaStats.setText(mängija.statid());
         MG.vastaneStats.setText(vastane.statid());
     }
-    // muuda siin, et takjas ja asiad sind ära ei tappaks.
-    private void vastase_kord(){
-        sb.setLength(0);
-        if(MH.rünnak(vastane,mängija,sb)){
-            mängija_elus=false;
-            uuenda();
-            MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
-            return;
-        };
+
+    private void vastaneTapetud(){
+        MG.kast.appendText("Tubli, tapsid vastase ära!");
+        skoor+=1;
+        if (skoor >= 10) {
+            MG.kast.setText("Tubli! Tapsid kõik vastased ära, mäng on läbi!");
+            mängläbi=true;
+        }
+        MH.tasu(mängija,sb);
         MG.kast.setText(sb.toString());
-        mängja_kord=true;
-        MG.NuppudOn();
+        vastane = MH.uusVastane(skoor,sb);
         uuenda();
     }
 
-    private void mängija_korra_lõpp(){
-        if(!vastane.kasElus()){
-            MG.kast.appendText("Tubli, tapsid vastase ära!");
-            skoor+=1;
-            MH.tasu(mängija,sb);
-            if (skoor<10){
-                vastane = MH.uusVastane(skoor,sb);
-            }
-            MG.kast.setText(sb.toString());
-            uuenda();
-            return;
-        }
-        MG.kast.setText(sb.toString());
-        mängja_kord=false;
-        MG.NuppudOff();
-        uuenda();
-    }
 
-    private void mängija_rünnak(){
-        if(mängja_kord){
-            sb.setLength(0);
-            MH.rünnak(mängija,vastane,sb);
-            mängija_korra_lõpp();
-        }
-    }
+
+
     private void raviEnnast(){
         sb.setLength(0);
         MH.elusta50(mängija,sb);
         MG.kast.setText(sb.toString());
         mängja_kord=false;
         MG.NuppudOff();
+        uuenda();
+    }
+
+    private void vastase_kord(){
+        sb.setLength(0);
+        try{
+            MH.rünnak(vastane,mängija,sb);
+        }catch (TegelaneSuri e){
+            if("Mängija".equals(e.toString())){
+                uuenda();
+                MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+                return;
+            }else{
+                vastaneTapetud();
+            }
+        }
+//        if(MH.rünnak(vastane,mängija,sb)){
+//            uuenda();
+//            MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+//            return;
+//        };
+        MG.kast.setText(sb.toString());
+        mängja_kord=true;
+        MG.NuppudOn();
         uuenda();
     }
 

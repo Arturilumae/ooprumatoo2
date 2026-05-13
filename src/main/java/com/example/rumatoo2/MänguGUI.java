@@ -107,8 +107,6 @@ public class MänguGUI{
 
         //AI pool tehtud mis aitab hoida aspect rasiot + teksti suurus
 
-
-
         StringBinding fondiStiil = Bindings.createStringBinding(
                 () -> "-fx-font-size: " + Math.max(10, scene.getWidth() / 35) + "px;"+
                 "-fx-border-color: #FF7F50;" +

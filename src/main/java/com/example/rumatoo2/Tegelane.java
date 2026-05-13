@@ -1,6 +1,5 @@
 package com.example.rumatoo2;
 
-import java.sql.SQLData;
 import java.util.Random;
 
 public class Tegelane {
@@ -163,17 +162,17 @@ public class Tegelane {
         return true;
     }
 
-    public boolean vigastamine(){
+    public void vigastamine(StringBuilder sb){
         if (vigastus>0) {
             double tugevus=vigastus*sisu[2].väärtus();
             saiPihta(tugevus);
-            System.out.println(nimi+ " sai vigastada Takja poolt ja kaotas "+tugevus+" elu");
+            sb.append(nimi+ " sai vigastada Takja poolt ja kaotas "+tugevus+" elu");
+            //System.out.println(nimi+ " sai vigastada Takja poolt ja kaotas "+tugevus+" elu");
             if(!kasElus()){
-                System.out.println("Vigastas surnuks");
-                return false;
+                throw new TegelaneSuri(nimi);
+                //System.out.println("Vigastas surnuks");
             }
         }
-        return true;
     }
 
     public boolean kasElus(){
