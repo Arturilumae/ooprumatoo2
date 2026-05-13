@@ -69,6 +69,7 @@ public class Peaklass extends Application {
         });
         //klaviatuur
         stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            boolean töödeldud = true;
             try {
                 switch (e.getCode()) {
                     case SPACE -> kastiteod();
@@ -76,14 +77,13 @@ public class Peaklass extends Application {
                     case DIGIT2, NUMPAD2 -> raviEnnast();
                     case DIGIT3, NUMPAD3 -> vaataEsemeid();
                     case DIGIT4, NUMPAD4 -> näitaOmadusi();
+                    default -> töödeldud = false;
                 }
             } catch (ViganeSisestus f) {
                 MG.kast.appendText(f.getMessage());
             }
-
+            if (töödeldud) e.consume();
         });
-
-
     }
 
     private void kastiteod() {
@@ -97,6 +97,8 @@ public class Peaklass extends Application {
             mängualustada = false;
             mängja_kord=true;
         }else if (!mängja_kord) {
+            mängja_kord=true;
+            sb.setLength(0);
             vastase_kord();
         }else{
             throw new ViganeSisestus("Tee oma otsus!!!\n");
@@ -109,16 +111,16 @@ public class Peaklass extends Application {
             try{
                 MH.rünnak(mängija,vastane,sb);
             }catch (TegelaneSuri e){
-                if(e.equals("Mängija")){
+                if(e.getMessage().equals("Mängija")){
                     uuenda();
                     MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+                    mängläbi = true;
                     return;
                 }else{
                     vastaneTapetud();
                     return;
                 }
             }
-            //MH.rünnak(mängija,vastane,sb);
             mängija_korra_lõpp();
         }else {
             throw new ViganeSisestus("Pole sinu kord!!!\n");
@@ -126,17 +128,6 @@ public class Peaklass extends Application {
     }
 
     private void mängija_korra_lõpp(){
-//        if(!vastane.kasElus()){
-//            MG.kast.appendText("Tubli, tapsid vastase ära!");
-//            skoor+=1;
-//            MH.tasu(mängija,sb);
-//            if (skoor<10){
-//                vastane = MH.uusVastane(skoor,sb);
-//            }
-//            MG.kast.setText(sb.toString());
-//            uuenda();
-//            return;
-//        }
         MG.kast.setText(sb.toString());
         mängja_kord=false;
         MG.NuppudOff();
@@ -160,9 +151,6 @@ public class Peaklass extends Application {
         vastane = MH.uusVastane(skoor,sb);
         uuenda();
     }
-
-
-
 
     private void raviEnnast(){
         if(!mängualustada&&mängja_kord){
@@ -199,21 +187,16 @@ public class Peaklass extends Application {
         try{
             MH.rünnak(vastane,mängija,sb);
         }catch (TegelaneSuri e){
-            if("Mängija".equals(e.toString())){
+            if(e.getMessage().equals("Mängija")){
                 uuenda();
                 MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+                mängläbi=true;
                 return;
             }else{
                 vastaneTapetud();
             }
         }
-//        if(MH.rünnak(vastane,mängija,sb)){
-//            uuenda();
-//            MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
-//            return;
-//        };
         MG.kast.setText(sb.toString());
-        mängja_kord=true;
         MG.NuppudOn();
         uuenda();
     }

@@ -167,10 +167,8 @@ public class Tegelane {
             double tugevus=vigastus*sisu[2].väärtus();
             saiPihta(tugevus);
             sb.append(nimi+ " sai vigastada Takja poolt ja kaotas "+tugevus+" elu");
-            //System.out.println(nimi+ " sai vigastada Takja poolt ja kaotas "+tugevus+" elu");
             if(!kasElus()){
                 throw new TegelaneSuri(nimi);
-                //System.out.println("Vigastas surnuks");
             }
         }
     }
