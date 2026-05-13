@@ -32,9 +32,6 @@ public class MänguGUI{
     public TextArea vastaneStats;
     public ImageView pilt;
 
-    final double MIN_SUHE = 0.5;    // ratio(1:2)
-    final double MAX_SUHE = 5;    // ratio 5:1
-
     public void ehita(Stage stage) {
         mängijaStats = new TextArea("");
         vastaneStats = new TextArea("");
@@ -45,6 +42,8 @@ public class MänguGUI{
 
         pilt = new ImageView(new Image("file:oliver.png"));
         pilt.setPreserveRatio(true);
+        pilt.setFitHeight(500);
+        pilt.setFitWidth(400);
 
         HBox paigutusÜleval = new HBox();
         paigutusÜleval.getChildren().addAll(mängijaStats, pilt, vastaneStats);
@@ -154,8 +153,8 @@ public class MänguGUI{
         stage.setScene(scene);
         stage.setTitle("Delta Areen");
         stage.setResizable(true);
-        stage.setMinWidth(500);
-        stage.setMinHeight(400);
+        stage.setMinWidth(700);
+        stage.setMinHeight(600);
         stage.show();
 
 
