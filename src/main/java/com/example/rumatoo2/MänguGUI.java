@@ -52,7 +52,7 @@ public class MänguGUI{
                      "Tere tulemast Delta areenile!!! \nSaad vajutda nuppe, et tegevusi teha.\n" +
                         "Ülesanne on kõik vastased ära tappa.\n" +
                         "Mängu saab mängida nupputega ja hiirega.\n" +
-                        "Alustamiseks vajuta Tühikut või kilki hiirega siia kasti");
+                        "Alustamiseks vajuta Tühikut või kilki hiirega siia kasti.\n");
         kast.setEditable(false);
         kast.setWrapText(true);
 
@@ -149,7 +149,6 @@ public class MänguGUI{
         });
 
         //lõppeb AI poolt tehtud
-
         stage.setScene(scene);
         stage.setTitle("Delta Areen");
         stage.setResizable(true);

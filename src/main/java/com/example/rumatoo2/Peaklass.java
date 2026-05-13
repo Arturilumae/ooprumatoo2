@@ -1,14 +1,7 @@
 package com.example.rumatoo2;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class Peaklass extends Application {
@@ -20,7 +13,7 @@ public class Peaklass extends Application {
     private Tegelane vastane;
 
     private boolean mängualustada=true;
-    private boolean mängja_kord=true;
+    private boolean mängja_kord=false;
     private boolean mängläbi=false;
     private int skoor=0;
 
@@ -29,43 +22,84 @@ public class Peaklass extends Application {
     public void start(Stage stage) throws Exception {
         MG.ehita(stage);
 
-        //põhikooood
+        //mängija interaksioon
+        //hiir
         Tegelane[] tegelased = MH.alustaMängu();
         mängija = tegelased[0];
         vastane = tegelased[1];
 
         MG.kast.setOnMouseClicked(e -> {
-            kastiteod();
+            try {
+                kastiteod();
+            } catch (ViganeSisestus f) {
+                MG.kast.appendText(f.getMessage());
+            }
         });
 
         MG.ründaVastast.setOnAction(e -> {
-            mängija_rünnak();
+            try {
+                mängija_rünnak();
+            } catch (ViganeSisestus f) {
+                MG.kast.appendText(f.getMessage());
+            }
         });
 
         MG.raviEnnast.setOnAction(e -> {
-            raviEnnast();
+            try {
+                raviEnnast();
+            } catch (ViganeSisestus f) {
+                MG.kast.appendText(f.getMessage());
+            }
         });
 
         MG.vaataEsemeid.setOnAction(e -> {
-            MG.kast.setText(mängija.näitaEsemed());
+            try {
+                vaataEsemeid();
+            } catch (ViganeSisestus f) {
+                MG.kast.appendText(f.getMessage());
+            }
         });
 
         MG.vaataOmadusi.setOnAction(e -> {
-            MH.näitaOmadusi(mängija,vastane,MG.kast);
+            try {
+                näitaOmadusi();
+            } catch (ViganeSisestus f) {
+                MG.kast.appendText(f.getMessage());
+            }
         });
+        //klaviatuur
+        stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
+            try {
+                switch (e.getCode()) {
+                    case SPACE -> kastiteod();
+                    case DIGIT1, NUMPAD1 -> mängija_rünnak();
+                    case DIGIT2, NUMPAD2 -> raviEnnast();
+                    case DIGIT3, NUMPAD3 -> vaataEsemeid();
+                    case DIGIT4, NUMPAD4 -> näitaOmadusi();
+                }
+            } catch (ViganeSisestus f) {
+                MG.kast.appendText(f.getMessage());
+            }
+
+        });
+
+
     }
+
     private void kastiteod() {
         if(mängläbi){
             System.exit(0);
         }
-
         if (mängualustada) {
             uuenda();
             MG.kast.setText("Mida teed?");
             MG.NuppudOn();
             mängualustada = false;
+            mängja_kord=true;
         }else if (!mängja_kord) {
             vastase_kord();
+        }else{
+            throw new ViganeSisestus("Tee oma otsus!!!\n");
         }
     }
 
@@ -81,10 +115,13 @@ public class Peaklass extends Application {
                     return;
                 }else{
                     vastaneTapetud();
+                    return;
                 }
             }
             //MH.rünnak(mängija,vastane,sb);
             mängija_korra_lõpp();
+        }else {
+            throw new ViganeSisestus("Pole sinu kord!!!\n");
         }
     }
 
@@ -128,12 +165,33 @@ public class Peaklass extends Application {
 
 
     private void raviEnnast(){
-        sb.setLength(0);
-        MH.elusta50(mängija,sb);
-        MG.kast.setText(sb.toString());
-        mängja_kord=false;
-        MG.NuppudOff();
-        uuenda();
+        if(!mängualustada&&mängja_kord){
+            sb.setLength(0);
+            MH.elusta50(mängija,sb);
+            MG.kast.setText(sb.toString());
+            mängja_kord=false;
+            MG.NuppudOff();
+            uuenda();
+        }else {
+            if(!mängualustada)throw new ViganeSisestus("Alusta mäng, ennem liigutuste tegemist!!!\n");
+            throw new ViganeSisestus("Pole sinu kord!!!\n");
+        }
+    }
+
+    private void vaataEsemeid(){
+        if(mängja_kord){
+            MG.kast.setText(mängija.näitaEsemed());
+        }else {
+            throw new ViganeSisestus("Pole sinu kord!!!\n");
+        }
+    }
+
+    private void näitaOmadusi(){
+        if(mängja_kord){
+            MH.näitaOmadusi(mängija, vastane, MG.kast);
+        }else {
+            throw new ViganeSisestus("Pole sinu kord!!!\n");
+        }
     }
 
     private void vastase_kord(){
