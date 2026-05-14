@@ -2,6 +2,7 @@ package com.example.rumatoo2;
 
 import javafx.scene.control.TextArea;
 
+import java.io.*;
 import java.util.Random;
 
 public class ManguHaldaja {
@@ -127,5 +128,31 @@ public class ManguHaldaja {
 
     public void näitaOmadusi(Tegelane T1, Tegelane T2,TextArea kast){
         kast.setText(T1.näitaOmadusi()+"\n"+"*".repeat(30)+"\n"+T2.näitaOmadusi());
+    }
+
+    private Tegelane loeFailist() throws FileNotFoundException {
+        try(DataInputStream dis = new DataInputStream(new FileInputStream("andmed.dat"))){
+            int skoor = dis.readInt();
+            double elud = dis.readDouble();
+            double tugevus = dis.readDouble();
+            int[] esemed = new int[10];
+            for (int i = 0; i < 10; i++) {
+                int ese = dis.readInt();
+                esemed[i] = ese;
+            }
+            Peaklass.skoor = skoor;
+            return new Tegelane("Mängija", elud, tugevus, esemed);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+            //tere
+        }
+    }
+
+    public void kirjutaFaili() throws FileNotFoundException {
+        try(DataOutputStream dos = new DataOutputStream(new FileOutputStream("andmed.dat"))){
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

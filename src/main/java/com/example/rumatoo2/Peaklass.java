@@ -15,7 +15,7 @@ public class Peaklass extends Application {
     private boolean mängualustada=true;
     private boolean mängja_kord=false;
     private boolean mängläbi=false;
-    private int skoor=0;
+    public static int skoor=0;
 
 
     @Override
