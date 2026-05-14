@@ -3,16 +3,16 @@ package com.example.rumatoo2;
 import java.util.Random;
 
 public class Tegelane {
-    private String nimi;
-    private double algsedElud;
+    private final String nimi;
+    private final double algsedElud;
     private double maksimumElud;
     private double elud;
-    private double algneTugevus;
+    private final double algneTugevus;
     private double tugevus;
-    private double õnn=1;
+    private final double õnn=1;
     private int veritsus=0;
     private int vigastus=0;
-    private Asi[] sisu = new Asi[10];
+    private final Asi[] sisu = new Asi[10];
 
     public Tegelane(String nimi, double elud, double tugevus) {
         this.nimi = nimi;
@@ -33,6 +33,31 @@ public class Tegelane {
         this.sisu[7] = new Asi("Printer",Esemetüüp.Asjad,1, 1,0.03,1);
         this.sisu[8] = new Asi("Süstal",Esemetüüp.Varastamine, 0.5,0.1,4);
         this.sisu[9] = new Asi("Teritaja",15,Esemetüüp.Rünne,0.2);
+    }
+
+    public Tegelane(String nimi, double elud, double tugevus, int[] algsedAsjad) {
+        this.nimi = nimi;
+        this.algsedElud = elud;
+        this.maksimumElud=elud;
+        this.elud=elud;
+        this.tugevus = tugevus;
+        this.algneTugevus =tugevus;
+
+
+        this.sisu[0] = new Asi("Stimulant",Esemetüüp.Rünnak2x, 0.1,0.05,1);
+        this.sisu[1] = new Asi("Must leib",20,Esemetüüp.Elud,0.25);
+        this.sisu[2] = new Asi("Takjas",Esemetüüp.Vigastus, 15, 0.25,0.15,2.5);
+        this.sisu[3] = new Asi("Õli",Esemetüüp.Põikamine, 0.15,0.05,0,5);
+        this.sisu[4] = new Asi("Kiisu",Esemetüüp.Veritsus, 20, 0.2,0.05,1.5);
+        this.sisu[5] = new Asi("Kevin",Esemetüüp.Tähelepanu, 0.5,0.1,5);
+        this.sisu[6] = new Asi("Ristikhein",2,Esemetüüp.Õnn,0.02);
+        this.sisu[7] = new Asi("Printer",Esemetüüp.Asjad,1, 1,0.03,1);
+        this.sisu[8] = new Asi("Süstal",Esemetüüp.Varastamine, 0.5,0.1,4);
+        this.sisu[9] = new Asi("Teritaja",15,Esemetüüp.Rünne,0.2);
+
+        for (int i = 0; i < 10; i++) {
+            sisu[i].setPalju(algsedAsjad[i]);
+        }
     }
 
     public String näitaOmadusi(){

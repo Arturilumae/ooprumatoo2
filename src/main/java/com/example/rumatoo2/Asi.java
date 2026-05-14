@@ -84,7 +84,6 @@ public class Asi {
         return nimi;
     }
 
-    //NB! Debugimiseks
     public void setPalju(int a){
         palju=a;
     }
