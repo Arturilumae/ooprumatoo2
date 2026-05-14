@@ -247,4 +247,8 @@ public class Tegelane {
         }
         return tul;
     }
+
+    public void setElud(double elud){
+        this.elud = elud;
+    }
 }

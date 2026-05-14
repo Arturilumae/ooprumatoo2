@@ -139,12 +139,15 @@ public class ManguHaldaja {
             Peaklass.skoor = dis.readInt();
             double elud = dis.readDouble();
             double tugevus = dis.readDouble();
+            double praeguElud = dis.readDouble();
             int[] esemed = new int[10];
             for (int i = 0; i < 10; i++) {
                 int ese = dis.readInt();
                 esemed[i] = ese;
             }
-            return new Tegelane("Mängija", elud, tugevus, esemed);
+            Tegelane mangija = new Tegelane("Mängija", elud, tugevus, esemed);
+            mangija.setElud(praeguElud);
+            return mangija;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -155,6 +158,7 @@ public class ManguHaldaja {
             dos.writeInt(Peaklass.skoor);
             dos.writeDouble(mängija.getAlgsedElud());
             dos.writeDouble(mängija.getAlgneTugevus());
+            dos.writeDouble(mängija.getElud());
             for (int i = 0; i < 10; i++) {
                 dos.writeInt(mängija.asjadeArv()[i]);
             }
