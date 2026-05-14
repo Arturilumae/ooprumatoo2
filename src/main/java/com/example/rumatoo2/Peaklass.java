@@ -24,7 +24,9 @@ public class Peaklass extends Application {
 
         //mängija interaksioon
         //hiir
-        Tegelane[] tegelased = MH.alustaMängu();
+        Tegelane[] tegelased = MH.alustaMängu(sb);
+        MG.kast.appendText(sb.toString());
+        sb.setLength(0);
         mängija = tegelased[0];
         vastane = tegelased[1];
 
@@ -140,15 +142,16 @@ public class Peaklass extends Application {
     }
 
     private void vastaneTapetud(){
-        MG.kast.appendText("Tubli, tapsid vastase ära!");
+        MG.kast.appendText("Tubli, tapsid vastase ära!\n");
         skoor+=1;
         if (skoor >= 10) {
             MG.kast.setText("Tubli! Tapsid kõik vastased ära, mäng on läbi!");
             mängläbi=true;
         }
         MH.tasu(mängija,sb);
+        sb.append("Tuleb uus vastane\n");
         MG.kast.setText(sb.toString());
-        vastane = MH.uusVastane(skoor,sb);
+        vastane = MH.uusVastane(skoor);
         uuenda();
     }
 

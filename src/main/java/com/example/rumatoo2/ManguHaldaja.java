@@ -10,22 +10,20 @@ public class ManguHaldaja {
     // teeb mängija ja vastase objecti ja tagastab need
 
 
-    public Tegelane[] alustaMängu(){
+    public Tegelane[] alustaMängu(StringBuilder sb){
         Tegelane[] tegelased = new Tegelane[2];
+        int[] skoor = new int[1];
         try{
-            tegelased[0] = loeFailist();
+            tegelased[0] = loeFailist(skoor);
+            tegelased[1] = uusVastane(skoor[0]);
+            sb.append("Fail leitud uus mäng laetud.\n");
+            return tegelased;
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
+            sb.append("Faili ei leitud algab uus mäng.\n");
+            tegelased[0] = new Tegelane("Mängija",100,20);
+            tegelased[1] = new Tegelane("Oliver", 30, 25);
+            return tegelased;
         }
-
-
-        tegelased[0] = new Tegelane("Mängija",100,20);
-        tegelased[1] = new Tegelane("Oliver", 30, 25);
-
-        //tegelased[0].setPalju(Esemetüüp.Vigastus,10); //Katsetuseks lisan asja
-        //kaka
-
-        return tegelased;
     }
 
     //Arvutab rünnaku efekte ja väljastab info ekraanile
@@ -109,9 +107,8 @@ public class ManguHaldaja {
     }
 
     //teeb uue vastase suvaliste väärtustega
-    public Tegelane uusVastane(int skoor,StringBuilder sb){
+    public Tegelane uusVastane(int skoor){
         Random rand = new Random();
-        sb.append("Tuleb uus vastane");
         //System.out.println("Tuleb uus vastane");
         return new Tegelane("Oliveri järglane",rand.nextInt(100)+1+30*skoor,rand.nextInt(50)+1+10*skoor);
     }
@@ -138,9 +135,9 @@ public class ManguHaldaja {
         kast.setText(T1.näitaOmadusi()+"\n"+"*".repeat(30)+"\n"+T2.näitaOmadusi());
     }
 
-    private Tegelane loeFailist() throws FileNotFoundException {
+    private Tegelane loeFailist(int skoor[]) throws FileNotFoundException {
         try(DataInputStream dis = new DataInputStream(new FileInputStream("andmed.dat"))){
-            int skoor = dis.readInt();
+            skoor[0] = dis.readInt();
             double elud = dis.readDouble();
             double tugevus = dis.readDouble();
             int[] esemed = new int[10];
@@ -148,11 +145,9 @@ public class ManguHaldaja {
                 int ese = dis.readInt();
                 esemed[i] = ese;
             }
-            Peaklass.skoor = skoor;
             return new Tegelane("Mängija", elud, tugevus, esemed);
         } catch (IOException e) {
             throw new RuntimeException(e);
-            //tere
         }
     }
 
