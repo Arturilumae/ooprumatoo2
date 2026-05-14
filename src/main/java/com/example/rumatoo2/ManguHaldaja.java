@@ -150,9 +150,14 @@ public class ManguHaldaja {
         }
     }
 
-    public void kirjutaFaili() throws FileNotFoundException {
+    public void kirjutaFaili(Tegelane mängija) {
         try(DataOutputStream dos = new DataOutputStream(new FileOutputStream("andmed.dat"))){
-
+            dos.writeInt(Peaklass.skoor);
+            dos.writeDouble(mängija.getAlgsedElud());
+            dos.writeDouble(mängija.getAlgneTugevus());
+            for (int i = 0; i < 10; i++) {
+                dos.writeInt(mängija.asjadeArv()[i]);
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

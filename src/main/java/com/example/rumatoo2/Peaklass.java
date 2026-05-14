@@ -224,7 +224,6 @@ public class Peaklass extends Application {
             MG.failiSalvestamaOff();
             uuenda();
         }else {
-            if(!mängualustada)throw new ViganeSisestus("Alusta mäng, ennem liigutuste tegemist!!!\n");
             throw new ViganeSisestus("Pole sinu kord!!!\n");
         }
     }
