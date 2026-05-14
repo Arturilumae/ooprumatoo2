@@ -231,4 +231,20 @@ public class Tegelane {
             }
         }
     }
+
+    public double getAlgsedElud(){
+        return algsedElud;
+    }
+
+    public double getAlgneTugevus() {
+        return algneTugevus;
+    }
+
+    public int[] asjadeArv(){
+        int[] tul = new int[10];
+        for (int i = 0; i < 10; i++) {
+            tul[i]=sisu[i].getPalju();
+        }
+        return tul;
+    }
 }

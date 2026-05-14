@@ -12,10 +12,18 @@ public class ManguHaldaja {
 
     public Tegelane[] alustaMängu(){
         Tegelane[] tegelased = new Tegelane[2];
+        try{
+            tegelased[0] = loeFailist();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+
         tegelased[0] = new Tegelane("Mängija",100,20);
         tegelased[1] = new Tegelane("Oliver", 30, 25);
 
         //tegelased[0].setPalju(Esemetüüp.Vigastus,10); //Katsetuseks lisan asja
+        //kaka
 
         return tegelased;
     }
