@@ -33,7 +33,7 @@ public class Peaklass extends Application {
         }
 
         //mängija interaksioon
-        //hiir
+        //hiir (lmao maus)
         MG.kast.setOnMouseClicked(e -> {
             try {
                 kastiteod();
