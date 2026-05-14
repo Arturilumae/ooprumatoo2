@@ -171,20 +171,18 @@ public class Tegelane {
         veritsus++;
     }
 
-    public boolean veritsemine(){
+    public void veritsemine(StringBuilder sb){
         if (veritsus>0) {
             double tugevus=veritsus*sisu[4].väärtus();
             saiPihta(tugevus);
-            System.out.println(nimi+ " veritses ja kaotas "+tugevus+" elu");
+            sb.append(nimi+ " veritses ja kaotas "+tugevus+" elu\n");
             if(!kasElus()){
-                System.out.println("Veritses surnuks");
-                return false;
+                sb.append("Veritses surnuks\n");
+                throw new TegelaneSuri(nimi);
             }else{
-                System.out.println("Alles jäi "+elud);
-                return true;
+                sb.append("Alles jäi "+elud+"\n");
             }
         }
-        return true;
     }
 
     public void vigastamine(StringBuilder sb){

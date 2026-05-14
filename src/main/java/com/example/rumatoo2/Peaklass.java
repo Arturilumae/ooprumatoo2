@@ -3,10 +3,7 @@ package com.example.rumatoo2;
 import javafx.application.Application;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
-
 import java.io.FileNotFoundException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class Peaklass extends Application {
     private final MänguGUI MG = new MänguGUI();
@@ -27,16 +24,12 @@ public class Peaklass extends Application {
     public void start(Stage stage) throws Exception {
         MG.ehita(stage);
 
-        if(!MH.kasFailEksisteerib()){
-            Tegelane[] tegelased = MH.alustaMängu(sb);
-            mängija=tegelased[0];
-            vastane=tegelased[1];
-            MG.kast.appendText(sb.toString());
-            sb.setLength(0);
-        }else{
-            MG.kast.appendText("Leitsin faili, tahad laadida vana mängu?");
+        if(MH.kasFailEksisteerib()){
+            MG.kast.appendText("Leidsin faili, tahad laadida vana mängu?");
             MG.failiSalvestus.setText("Lae vana mäng");
             MG.failiSalvestamaOn();
+        }else{
+            MG.kast.appendText("Faili ei leitud algab uus mäng.\n");
         }
 
         //mängija interaksioon
@@ -160,6 +153,11 @@ public class Peaklass extends Application {
             System.exit(0);
         }
         if (mängualustada) {
+            Tegelane[] tegelased = MH.alustaMängu();
+            mängija=tegelased[0];
+            vastane=tegelased[1];
+            MG.failiSalvestus.setText("(5) Salvesta Mäng");
+            MG.failiSalvestamaOff();
             uuenda();
             MG.kast.setText("Mida teed?");
             MG.NuppudOn();
@@ -199,6 +197,11 @@ public class Peaklass extends Application {
     }
 
     private void mängija_korra_lõpp(){
+        try{
+            MH.püsiEfektid(mängija,sb);
+        }catch (TegelaneSuri e){
+            mängijaSuri(e);
+        }
         MG.kast.setText(sb.toString());
         mängja_kord=false;
         saad_salvestada=false;
@@ -230,10 +233,7 @@ public class Peaklass extends Application {
         if(!mängualustada&&mängja_kord){
             sb.setLength(0);
             MH.elusta50(mängija,sb);
-            MG.kast.setText(sb.toString());
-            mängja_kord=false;
-            MG.NuppudOff();
-            MG.failiSalvestamaOff();
+            mängija_korra_lõpp();
             uuenda();
         }else {
             throw new ViganeSisestus("Pole sinu kord!!!\n");
@@ -260,20 +260,25 @@ public class Peaklass extends Application {
         sb.setLength(0);
         try{
             MH.rünnak(vastane,mängija,sb);
+            MH.püsiEfektid(vastane,sb);
         }catch (TegelaneSuri e){
-            if(e.getMessage().equals("Mängija")){
-                uuenda();
-                MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
-                mängläbi=true;
-                return;
-            }else{
-                vastaneTapetud();
-            }
+            mängijaSuri(e);
         }
         MG.kast.setText(sb.toString());
         MG.NuppudOn();
         MG.failiSalvestamaOn();
         uuenda();
+    }
+
+    private void mängijaSuri(TegelaneSuri e){
+        if(e.getMessage().equals("Mängija")){
+            uuenda();
+            MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+            mängläbi=true;
+            return;
+        }else{
+            vastaneTapetud();
+        }
     }
 
     static void main(String[] args) {

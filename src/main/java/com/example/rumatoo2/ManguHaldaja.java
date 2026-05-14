@@ -10,14 +10,11 @@ import java.util.Random;
 public class ManguHaldaja {
 
     // teeb mängija ja vastase objecti ja tagastab need
-
-
-    public Tegelane[] alustaMängu(StringBuilder sb){
+    public Tegelane[] alustaMängu(){
         Tegelane[] tegelased = new Tegelane[2];
-
-        sb.append("Faili ei leitud algab uus mäng.\n");
         tegelased[0] = new Tegelane("Mängija",100,20);
         tegelased[1] = new Tegelane("Oliver", 30, 25);
+        tegelased[0].setPalju(Esemetüüp.Veritsus,3);
         return tegelased;
     }
 
@@ -101,8 +98,8 @@ public class ManguHaldaja {
     }
 
     //Tegeleb tegelase käigu lõpus olevate efektitega
-    public boolean püsiEfektid(Tegelane T){
-        return T.veritsemine();
+    public void püsiEfektid(Tegelane T,StringBuilder sb){
+        T.veritsemine(sb);
     }
 
     //teeb uue vastase suvaliste väärtustega
