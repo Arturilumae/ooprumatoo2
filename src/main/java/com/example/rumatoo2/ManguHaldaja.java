@@ -3,6 +3,8 @@ package com.example.rumatoo2;
 import javafx.scene.control.TextArea;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Random;
 
 public class ManguHaldaja {
@@ -12,18 +14,15 @@ public class ManguHaldaja {
 
     public Tegelane[] alustaMängu(StringBuilder sb){
         Tegelane[] tegelased = new Tegelane[2];
-        int[] skoor = new int[1];
-        try{
-            tegelased[0] = loeFailist(skoor);
-            tegelased[1] = uusVastane(skoor[0]);
-            sb.append("Fail leitud uus mäng laetud.\n");
-            return tegelased;
-        } catch (FileNotFoundException e) {
-            sb.append("Faili ei leitud algab uus mäng.\n");
-            tegelased[0] = new Tegelane("Mängija",100,20);
-            tegelased[1] = new Tegelane("Oliver", 30, 25);
-            return tegelased;
-        }
+
+        sb.append("Faili ei leitud algab uus mäng.\n");
+        tegelased[0] = new Tegelane("Mängija",100,20);
+        tegelased[1] = new Tegelane("Oliver", 30, 25);
+        return tegelased;
+    }
+
+    public boolean kasFailEksisteerib(){
+        return Files.exists(Path.of("andmed.dat"));
     }
 
     //Arvutab rünnaku efekte ja väljastab info ekraanile
@@ -135,9 +134,9 @@ public class ManguHaldaja {
         kast.setText(T1.näitaOmadusi()+"\n"+"*".repeat(30)+"\n"+T2.näitaOmadusi());
     }
 
-    private Tegelane loeFailist(int skoor[]) throws FileNotFoundException {
+    public Tegelane loeFailist() throws FileNotFoundException {
         try(DataInputStream dis = new DataInputStream(new FileInputStream("andmed.dat"))){
-            skoor[0] = dis.readInt();
+            Peaklass.skoor = dis.readInt();
             double elud = dis.readDouble();
             double tugevus = dis.readDouble();
             int[] esemed = new int[10];

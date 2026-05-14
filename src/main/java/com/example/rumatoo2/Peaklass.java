@@ -4,6 +4,9 @@ import javafx.application.Application;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class Peaklass extends Application {
     private final MänguGUI MG = new MänguGUI();
     private final StringBuilder sb = new StringBuilder();
@@ -22,13 +25,30 @@ public class Peaklass extends Application {
     public void start(Stage stage) throws Exception {
         MG.ehita(stage);
 
+        if(!MH.kasFailEksisteerib()){
+            Tegelane[] tegelased = MH.alustaMängu(sb);
+            mängija=tegelased[0];
+            vastane=tegelased[1];
+            MG.kast.appendText(sb.toString());
+            sb.setLength(0);
+        }else{
+            MG.kast.appendText("Leitsin faili, tahad laadida vana mängu?");
+            MG.failiSalvestus.setText("Lae vana mäng");
+            MG.failiSalvestamaOn();
+        }
+
+//        try{
+//            tegelased[0] = MH.loeFailist();
+//            tegelased[1] = MH.uusVastane(skoor);
+//            sb.append("Fail leitud uus mäng laetud.\n");
+//        } catch (Exception e) {
+//
+//        }
+
         //mängija interaksioon
         //hiir
-        Tegelane[] tegelased = MH.alustaMängu(sb);
-        MG.kast.appendText(sb.toString());
-        sb.setLength(0);
-        mängija = tegelased[0];
-        vastane = tegelased[1];
+
+
 
         MG.kast.setOnMouseClicked(e -> {
             try {
@@ -79,6 +99,11 @@ public class Peaklass extends Application {
                     case DIGIT2, NUMPAD2 -> raviEnnast();
                     case DIGIT3, NUMPAD3 -> vaataEsemeid();
                     case DIGIT4, NUMPAD4 -> näitaOmadusi();
+                    case DIGIT5, NUMPAD5 -> {
+                        if(mängualustada){
+
+                        }
+                    }
                     default -> töödeldud = false;
                 }
             } catch (ViganeSisestus f) {
@@ -86,6 +111,10 @@ public class Peaklass extends Application {
             }
             if (töödeldud) e.consume();
         });
+    }
+
+    private void salvestada(){
+
     }
 
     private void kastiteod() {

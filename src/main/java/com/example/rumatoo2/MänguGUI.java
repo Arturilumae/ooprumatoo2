@@ -17,6 +17,7 @@ public class MänguGUI{
     public Button raviEnnast;
     public Button vaataEsemeid;
     public Button vaataOmadusi;
+    public Button failiSalvestus;
 
     public TextArea kast;
     public TextArea mängijaStats;
@@ -47,26 +48,30 @@ public class MänguGUI{
         kast.setEditable(false);
         kast.setWrapText(true);
 
-        ründaVastast = new Button("Ründa vastast (1)");
-        raviEnnast = new Button("Ravi ennast 50% (2)");
-        vaataEsemeid = new Button("Vaata esemeid (3)");
-        vaataOmadusi = new Button("Vaata omadusi (4)");
+        ründaVastast = new Button("(1) Ründa vastast");
+        raviEnnast = new Button("(2) Ravi ennast 50%");
+        vaataEsemeid = new Button("(3) Vaata esemeid");
+        vaataOmadusi = new Button("(4) Vaata omadusi");
+        failiSalvestus = new Button(("(5) Salvesta Mäng"));
+
 
 
         ründaVastast.setMaxWidth(Double.MAX_VALUE);
         raviEnnast.setMaxWidth(Double.MAX_VALUE);
         vaataEsemeid.setMaxWidth(Double.MAX_VALUE);
         vaataOmadusi.setMaxWidth(Double.MAX_VALUE);
+        failiSalvestus.setMaxWidth(Double.MAX_VALUE);
 
         ründaVastast.setMaxHeight(Double.MAX_VALUE);
         raviEnnast.setMaxHeight(Double.MAX_VALUE);
         vaataEsemeid.setMaxHeight(Double.MAX_VALUE);
         vaataOmadusi.setMaxHeight(Double.MAX_VALUE);
+        failiSalvestus.setMaxHeight(Double.MAX_VALUE);
 
         VBox nupud = new VBox();
-        nupud.setSpacing(5);
+        nupud.setSpacing(3);
         nupud.setFillWidth(true);
-        nupud.getChildren().addAll(ründaVastast, raviEnnast, vaataEsemeid, vaataOmadusi);
+        nupud.getChildren().addAll(ründaVastast, raviEnnast, vaataEsemeid, vaataOmadusi, failiSalvestus);
 
         HBox paigutus = new HBox();
         paigutus.getChildren().addAll(nupud, kast);
@@ -84,6 +89,7 @@ public class MänguGUI{
         VBox.setVgrow(raviEnnast, Priority.ALWAYS);
         VBox.setVgrow(vaataEsemeid, Priority.ALWAYS);
         VBox.setVgrow(vaataOmadusi, Priority.ALWAYS);
+        VBox.setVgrow(failiSalvestus, Priority.ALWAYS);
 
         HBox.setHgrow(paigutus, Priority.ALWAYS);
         HBox.setHgrow(paigutusÜleval, Priority.ALWAYS);
@@ -123,10 +129,12 @@ public class MänguGUI{
         vaataOmadusi.styleProperty().bind(nuppuStiil);
         mängijaStats.styleProperty().bind(fondiStiil);
         vastaneStats.styleProperty().bind(fondiStiil);
+        failiSalvestus.styleProperty().bind(fondiStiil);
         kast.styleProperty().bind(kastiStiil);
         vastaneStats.styleProperty().bind(fondiStiil.concat("-fx-text-alignment: right;"));
 
         NuppudOff();
+        failiSalvestamaOff();
 
 
         scene.widthProperty().addListener((obs, vana, uus) -> {
@@ -161,5 +169,11 @@ public class MänguGUI{
         raviEnnast.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
         vaataEsemeid.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
         vaataOmadusi.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
+    }
+    public void failiSalvestamaOn(){
+        failiSalvestus.setBackground(new Background(new BackgroundFill(Color.GREEN, new CornerRadii(3), Insets.EMPTY)));
+    }
+    public void failiSalvestamaOff(){
+        failiSalvestus.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
     }
 }
