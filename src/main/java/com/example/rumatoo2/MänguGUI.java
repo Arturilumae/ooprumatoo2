@@ -49,17 +49,17 @@ public class MänguGUI{
         paigutusÜleval.getChildren().addAll(mängijaStats, pilt, vastaneStats);
 
         kast = new TextArea(
-                     "Tere tulemast Delta areenile!!! \nSaad vajutda nuppe, et tegevusi teha.\n" +
+                     "Tere tulemast Delta areenile! \nSaad vajutda nuppe, et tegevusi teha.\n" +
                         "Ülesanne on kõik vastased ära tappa.\n" +
-                        "Mängu saab mängida nupputega ja hiirega.\n" +
+                         "Kastid on rohelised kui on sinu kord, punased kui on vastase kord.\n" +
                         "Alustamiseks vajuta Tühikut või kilki hiirega siia kasti.\n");
         kast.setEditable(false);
         kast.setWrapText(true);
 
-        ründaVastast = new Button("Ründa vastast");
-        raviEnnast = new Button("Ravi ennast 50%");
-        vaataEsemeid = new Button("Vaata enda esemeid");
-        vaataOmadusi = new Button("Vaata omadusi");
+        ründaVastast = new Button("Ründa vastast (1)");
+        raviEnnast = new Button("Ravi ennast 50% (2)");
+        vaataEsemeid = new Button("Vaata esemeid (3)");
+        vaataOmadusi = new Button("Vaata omadusi (4)");
 
 
         ründaVastast.setMaxWidth(Double.MAX_VALUE);
