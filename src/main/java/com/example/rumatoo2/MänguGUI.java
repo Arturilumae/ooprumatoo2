@@ -95,13 +95,12 @@ public class MänguGUI{
         HBox.setHgrow(paigutusÜleval, Priority.ALWAYS);
 
 
-
         Scene scene = new Scene(juur, 500, 400);
 
         pilt.fitWidthProperty().bind(scene.widthProperty().divide(2));
 
 
-        //AI pool tehtud mis aitab hoida aspect rasiot + teksti suurus
+        //AI poolt tehtud mis aitab hoida aspect ratiot + teksti suurus
 
         StringBinding fondiStiil = Bindings.createStringBinding(
                 () -> "-fx-font-size: " + Math.max(10, scene.getWidth() / 35) + "px;"+
@@ -147,7 +146,7 @@ public class MänguGUI{
             });
         });
 
-        //lõppeb AI poolt tehtud
+        //lõpeb AI poolt tehtud
         stage.setScene(scene);
         stage.setTitle("Delta Areen");
         stage.setResizable(true);
@@ -175,5 +174,9 @@ public class MänguGUI{
     }
     public void failiSalvestamaOff(){
         failiSalvestus.setBackground(new Background(new BackgroundFill(Color.INDIANRED, new CornerRadii(3), Insets.EMPTY)));
+    }
+
+    public void pildiMuutmine(){
+        pilt.setImage(new Image("file:jarglane.png"));
     }
 }

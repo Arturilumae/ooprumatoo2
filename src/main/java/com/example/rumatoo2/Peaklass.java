@@ -17,7 +17,7 @@ public class Peaklass extends Application {
     private boolean mängja_kord=false;
     private boolean saad_salvestada=false;
     private boolean mängläbi=false;
-    public static int skoor=0;
+    private static int skoor=0;
 
 
     @Override
@@ -25,11 +25,11 @@ public class Peaklass extends Application {
         MG.ehita(stage);
 
         if(MH.kasFailEksisteerib()){
-            MG.kast.appendText("Leidsin faili, tahad laadida vana mängu?");
+            MG.kast.appendText("andmed.dat fail leitud, kas soovid laadida vana mängu?\n");
             MG.failiSalvestus.setText("Lae vana mäng");
             MG.failiSalvestamaOn();
         }else{
-            MG.kast.appendText("Faili ei leitud algab uus mäng.\n");
+            MG.kast.appendText("Faili ei leitud, algab uus mäng.\n");
         }
 
         //mängija interaksioon
@@ -116,7 +116,7 @@ public class Peaklass extends Application {
     }
 
     private void salvestadaMäng(){
-        if(mängja_kord&&saad_salvestada){
+        if(mängja_kord&&saad_salvestada&&!mängläbi){
             mängja_kord = false;
             saad_salvestada=false;
             MH.kirjutaFaili(mängija);
@@ -135,8 +135,11 @@ public class Peaklass extends Application {
             mängualustada=false;
             mängija = MH.loeFailist();
             vastane = MH.uusVastane(skoor);
+            if(skoor>0){
+                MG.pildiMuutmine();
+            }
             uuenda();
-            MG.kast.setText("Mida teed?");
+            MG.kast.setText("Mida teed?\n");
             MG.NuppudOn();
             mängualustada = false;
             mängja_kord=true;
@@ -159,7 +162,7 @@ public class Peaklass extends Application {
             MG.failiSalvestus.setText("(5) Salvesta Mäng");
             MG.failiSalvestamaOff();
             uuenda();
-            MG.kast.setText("Mida teed?");
+            MG.kast.setText("Mida teed?\n");
             MG.NuppudOn();
             mängualustada = false;
             mängja_kord=true;
@@ -182,13 +185,12 @@ public class Peaklass extends Application {
             }catch (TegelaneSuri e){
                 if(e.getMessage().equals("Mängija")){
                     uuenda();
-                    MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+                    MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini!\n");
                     mängläbi = true;
-                    return;
                 }else{
                     vastaneTapetud();
-                    return;
                 }
+                return;
             }
             mängija_korra_lõpp();
         }else {
@@ -226,6 +228,7 @@ public class Peaklass extends Application {
         sb.append("Tuleb uus vastane\n");
         MG.kast.setText(sb.toString());
         vastane = MH.uusVastane(skoor);
+        MG.pildiMuutmine();
         uuenda();
     }
 
@@ -273,12 +276,19 @@ public class Peaklass extends Application {
     private void mängijaSuri(TegelaneSuri e){
         if(e.getMessage().equals("Mängija")){
             uuenda();
-            MG.kast.appendText(sb + "Said surma.. \nJärgmine kord läheb paremini");
+            sb.append("Said surma.. \nJärgmine kord läheb paremini!\n");
             mängläbi=true;
-            return;
         }else{
             vastaneTapetud();
         }
+    }
+
+    public static int getSkoor() {
+        return skoor;
+    }
+
+    public static void setSkoor(int skoorUus) {
+        skoor = skoorUus;
     }
 
     static void main(String[] args) {
