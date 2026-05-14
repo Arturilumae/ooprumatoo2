@@ -25,6 +25,7 @@ public class MänguGUI{
     public ImageView pilt;
 
     public void ehita(Stage stage) {
+        //Defineerime mängija ja vastaste omaduste tekstikastid
         mängijaStats = new TextArea("");
         vastaneStats = new TextArea("");
         mängijaStats.setEditable(false);
@@ -32,6 +33,7 @@ public class MänguGUI{
         mängijaStats.setWrapText(true);
         vastaneStats.setWrapText(true);
 
+        //Defineerime vastase pildi
         pilt = new ImageView(new Image("file:oliver.png"));
         pilt.setPreserveRatio(true);
         pilt.setFitHeight(500);
@@ -40,6 +42,7 @@ public class MänguGUI{
         HBox paigutusÜleval = new HBox();
         paigutusÜleval.getChildren().addAll(mängijaStats, pilt, vastaneStats);
 
+        //Defineerime mängukäiku kirjeldava tekstikasti
         kast = new TextArea(
                      "Tere tulemast Delta areenile! \nSaad vajutda nuppe, et tegevusi teha.\n" +
                         "Ülesanne on kõik vastased ära tappa.\n" +
@@ -48,12 +51,13 @@ public class MänguGUI{
         kast.setEditable(false);
         kast.setWrapText(true);
 
+        //Defineerime mängija poolt kasutatavad nupud
+        //ma kirjutasin need commentid nag ma oleks mingi ai mis mul viga on
         ründaVastast = new Button("(1) Ründa vastast");
         raviEnnast = new Button("(2) Ravi ennast 50%");
         vaataEsemeid = new Button("(3) Vaata esemeid");
         vaataOmadusi = new Button("(4) Vaata omadusi");
         failiSalvestus = new Button(("(5) Salvesta Mäng"));
-
 
 
         ründaVastast.setMaxWidth(Double.MAX_VALUE);
@@ -157,6 +161,7 @@ public class MänguGUI{
 
     }
 
+    //Nuppude muutmine vastavalt sellele, kelle kord on
     public void NuppudOn(){
         ründaVastast.setBackground(new Background(new BackgroundFill(Color.GREEN, new CornerRadii(3), Insets.EMPTY)));
         raviEnnast.setBackground(new Background(new BackgroundFill(Color.GREEN, new CornerRadii(3), Insets.EMPTY)));
