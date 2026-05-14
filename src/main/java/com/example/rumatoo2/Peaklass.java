@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -89,6 +90,13 @@ public class Peaklass extends Application {
                 MG.kast.appendText(f.getMessage());
             }
         });
+        MG.failiSalvestus.setOnAction(e -> {
+            try{
+                laadidaSalvestus();
+            }catch (Exception f){
+
+            }
+        });
         //klaviatuur
         stage.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e -> {
             boolean töödeldud = true;
@@ -101,7 +109,11 @@ public class Peaklass extends Application {
                     case DIGIT4, NUMPAD4 -> näitaOmadusi();
                     case DIGIT5, NUMPAD5 -> {
                         if(mängualustada){
-
+                            try{
+                                laadidaSalvestus();
+                            } catch (FileNotFoundException ex) {
+                                throw new RuntimeException(ex);
+                            }
                         }
                     }
                     default -> töödeldud = false;
@@ -113,8 +125,17 @@ public class Peaklass extends Application {
         });
     }
 
-    private void salvestada(){
+    private void laadidaSalvestus() throws FileNotFoundException {
+        if(mängualustada){
+            mängualustada=false;
+            mängija = MH.loeFailist();
+            vastane = MH.uusVastane(skoor);
+            MG.failiSalvestus.setText("(5) Salvesta Mäng");
+            MG.failiSalvestamaOff();
 
+        }else {
+            throw new ViganeSisestus("Vigane sisestus\n");
+        }
     }
 
     private void kastiteod() {
