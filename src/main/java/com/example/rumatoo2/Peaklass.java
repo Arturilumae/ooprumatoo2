@@ -91,9 +91,13 @@ public class Peaklass extends Application {
             }
         });
         MG.failiSalvestus.setOnAction(e -> {
-            try{
-                laadidaSalvestus();
-            }catch (Exception f){
+            if(mängualustada) {
+                try {
+                    laadidaSalvestus();
+                } catch (Exception f) {
+                    MG.kast.appendText(f.getMessage());
+                }
+            }else{
 
             }
         });
@@ -125,14 +129,18 @@ public class Peaklass extends Application {
         });
     }
 
+    private void salvestadaMäng(){
+
+    }
+
     private void laadidaSalvestus() throws FileNotFoundException {
         if(mängualustada){
             mängualustada=false;
             mängija = MH.loeFailist();
             vastane = MH.uusVastane(skoor);
+            uuenda();
             MG.failiSalvestus.setText("(5) Salvesta Mäng");
             MG.failiSalvestamaOff();
-
         }else {
             throw new ViganeSisestus("Vigane sisestus\n");
         }
@@ -183,6 +191,7 @@ public class Peaklass extends Application {
         MG.kast.setText(sb.toString());
         mängja_kord=false;
         MG.NuppudOff();
+        MG.failiSalvestamaOff();
         uuenda();
     }
 
@@ -212,6 +221,7 @@ public class Peaklass extends Application {
             MG.kast.setText(sb.toString());
             mängja_kord=false;
             MG.NuppudOff();
+            MG.failiSalvestamaOff();
             uuenda();
         }else {
             if(!mängualustada)throw new ViganeSisestus("Alusta mäng, ennem liigutuste tegemist!!!\n");
@@ -251,6 +261,7 @@ public class Peaklass extends Application {
         }
         MG.kast.setText(sb.toString());
         MG.NuppudOn();
+        MG.failiSalvestamaOn();
         uuenda();
     }
 
